@@ -1,0 +1,158 @@
+<h1 mat-dialog-title>{{ data?.title ?? "New product" }}</h1>
+<form [formGroup]="form">
+  <mat-dialog-content>
+    <div style="display: flex">
+      <div style="flex: 1">
+        <mat-icon class="me-2">title</mat-icon>
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input formControlName="title" matInput type="text" />
+          <button
+            (click)="form.controls.title.setValue(null)"
+            matSuffix
+            mat-icon-button
+            type="button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="form.controls.title.errors && form.controls.title.touched"
+          >
+            Title is required
+          </mat-error>
+        </mat-form-field>
+        <div></div>
+        <mat-icon class="me-2">price_change</mat-icon>
+        <mat-form-field>
+          <mat-label>Price</mat-label>
+          <input formControlName="price" matInput type="number" />
+          <button
+            (click)="form.controls.price.setValue(null)"
+            matSuffix
+            mat-icon-button
+            type="button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="form.controls.price.errors && form.controls.price.touched"
+          >
+            Price must be a valid number
+          </mat-error>
+        </mat-form-field>
+        <div></div>
+
+        <mat-icon *ngIf="!(categoriesFetching$ | async)" class="me-2"
+          >category</mat-icon
+        >
+        <mat-spinner
+          class="me-2"
+          style="display: inline-block"
+          diameter="30"
+          *ngIf="categoriesFetching$ | async"
+        ></mat-spinner>
+        <mat-form-field appearance="fill">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="categoryId">
+            <div style="display: flex;" *ngFor="let category of categories$ | async">
+              <mat-option
+              style="flex: 1;"
+                [value]="category.id"
+                >{{ category.title }}
+              </mat-option>
+              <button
+                matSuffix
+                mat-icon-button
+                type="button"
+                (click)="editCategory(category)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              form.controls.categoryId.errors &&
+              form.controls.categoryId.touched
+            "
+          >
+            Category is required
+          </mat-error>
+          <button
+            (click)="addCategory($event)"
+            matSuffix
+            mat-icon-button
+            type="button"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-form-field>
+        <div></div>
+
+        <mat-icon class="me-2">image</mat-icon>
+        <mat-form-field>
+          <mat-label>Image URL</mat-label>
+          <input formControlName="imageUrl" matInput type="text" />
+          <button
+            (click)="form.controls.imageUrl.setValue(null)"
+            matSuffix
+            mat-icon-button
+            type="button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              form.controls.imageUrl.errors && form.controls.imageUrl.touched
+            "
+          >
+            Image is required
+          </mat-error>
+        </mat-form-field>
+        <div></div>
+        <mat-icon class="me-2">description</mat-icon>
+        <mat-form-field class="example-full-width">
+          <mat-label>Description</mat-label>
+          <textarea
+            style="overflow-y: hidden"
+            formControlName="description"
+            matInput
+            placeholder="Description"
+          ></textarea>
+          <button
+            (click)="form.controls.description.setValue(null)"
+            matSuffix
+            mat-icon-button
+            type="button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <product-card class="me-5" [displayButton]="false" [product]="getProduct()" ></product-card>
+    </div>
+    <div></div>
+    <mat-dialog-actions style="display: flex" [align]="'start'">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!form.valid || !form.touched"
+        (click)="submit()"
+        mat-dialog-close
+      >
+        Save
+      </button>
+      <div style="flex: 1"></div>
+      <button
+        (click)="openConfirm()"
+        mat-raised-button
+        color="warn"
+        *ngIf="data"
+      >
+        Delete
+      </button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</form>

@@ -1,0 +1,53 @@
+<div style="display: flex; justify-content: center; margin-top: 50px;">
+  <form [formGroup]="form" (ngSubmit)="submit()" style="margin-right: 40px; display: flex; flex-direction: column; flex: 1; max-width: 500px;">
+    <h1>Shipping</h1>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Address</mat-label>
+      <textarea matInput formControlName="address"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" />
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid">Place Order</button>
+  </form>
+  <mat-card style="flex: 1; max-width: 500px; padding: 10px; height: fit-content;">
+    <mat-card-header>
+      <mat-card-title>Order Summary</mat-card-title>
+      <mat-card-subtitle style="margin-bottom: 10px"
+        >You have {{ cartItems.length }} items in your shopping
+        cart</mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngFor="let cartItem of cartItems">
+        <mat-divider style="margin: 15px 0"></mat-divider>
+        <span style="margin-left: 15px; font-size: 18px; display: flex">
+          {{ cartItem.quantity }} x {{ cartItem.title }}
+          <span style="margin-left: auto; margin-right: 15px">{{
+            cartItem.quantity * cartItem.price | currency : "USD" : "symbol"
+          }}</span>
+        </span>
+      </ng-container>
+      <mat-divider style="margin: 15px 0"></mat-divider>
+      <span
+        style="
+          margin-left: 15px;
+          margin-top: 10px;
+          font-weight: bold;
+          display: flex;
+          font-size: 18px;
+          padding-bottom: 10px;
+        "
+        >Total
+        <span style="margin-left: auto; margin-right: 15px">{{
+          getTotalPrice() | currency : "USD" : "symbol"
+        }}</span></span
+      >
+    </mat-card-content>
+  </mat-card>
+</div>

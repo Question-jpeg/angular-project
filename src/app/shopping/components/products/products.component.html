@@ -1,0 +1,57 @@
+<div style="display: flex; justify-content: center">
+  <mat-card
+    style="
+      border-radius: 10px;
+      overflow: hidden;
+      min-width: 230px;
+      height: fit-content;
+      position: sticky;
+      top: 110px;
+    "
+  >
+    <mat-card-content style="padding: 0"
+      ><mat-selection-list
+        [multiple]="false"
+        style="min-width: 200px; padding: 0"
+      >
+        <mat-list-option
+          routerLink="/products"
+          style="margin-top: 20px"
+          [value]="''"
+          [selected]="!selectedCategoryId"
+        >
+          All Categories
+        </mat-list-option>
+        <mat-list-option
+          routerLink="/products"
+          [queryParams]="{ categoryId: c.id }"
+          *ngFor="let c of categories$ | async"
+          [value]="c.id"
+          [selected]="selectedCategoryId === c.id"
+        >
+          {{ c.title }}
+        </mat-list-option>
+      </mat-selection-list></mat-card-content
+    >
+  </mat-card>
+  <div
+    class="ms-5"
+    style="
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 20px;
+      row-gap: 20px;
+      width: 70vw;
+      max-width: 800px;
+    "
+  >
+    <product-card
+      [quantity]="getQuantity(p.id!)"
+      (onAdd)="addToCart($event)"
+      (onIncrement)="incrementQuantity($event)"
+      *ngFor="let p of filtered"
+      [product]="p"
+    ></product-card>
+  </div>
+</div>
+<div style="height: 50vh;"></div>

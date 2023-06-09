@@ -1,0 +1,111 @@
+<div style="max-width: 1000px; margin-left: auto; margin-right: auto;">
+  <div style="display: flex; align-items: center">
+    <button
+      mat-raised-button
+      color="primary"
+      style="font-size: 18px; padding: 20px 30px"
+      (click)="openDialog(null)"
+    >
+      New product
+    </button>
+    <button
+      *ngIf="!(isFetching$ | async)"
+      class="ms-2"
+      mat-icon-button
+      aria-label="Example icon button with a vertical three dot icon"
+      (click)="refresh()"
+    >
+      <mat-icon>restart_alt</mat-icon>
+    </button>
+    <mat-spinner
+      class="ms-3"
+      *ngIf="isFetching$ | async"
+      diameter="30"
+    ></mat-spinner>
+  </div>
+
+  <div class="mt-3"></div>
+
+  <mat-form-field style="width: 100%">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter()"
+      [formControl]="filterInput"
+      placeholder="title / description"
+      [value]="filterInput"
+    />
+    <button
+      (click)="
+        $event.stopPropagation(); filterInput.setValue(''); applyFilter()
+      "
+      matSuffix
+      mat-icon-button
+      type="button"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-chip-listbox multiple aria-label="Fish selection">
+    <mat-chip-option
+      *ngFor="let c of categories$ | async"
+      [value]="c.id"
+      (click)="onCategorySelect(c.id)"
+      [selected]="selectedCategories.includes(c.id)"
+      >{{ c.title }}</mat-chip-option
+    >
+    <button
+      *ngIf="!(isFetching$ | async)"
+      style="margin-left: auto"
+      mat-icon-button
+      aria-label="Example icon button with a vertical three dot icon"
+      (click)="deselectCategories()"
+    >
+      <mat-icon>restart_alt</mat-icon>
+    </button>
+  </mat-chip-listbox>
+
+  <div class="mt-3"></div>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Progress Column -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>
+          Title
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row"> {{ row.title }} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="price">
+        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>
+          Price $
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row"> {{ row.price }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row
+        style="cursor: pointer"
+        class="row-highlight"
+        mat-ripple
+        (click)="openDialog(product)"
+        *matRowDef="let product; columns: displayedColumns"
+      >
+      </mat-row>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          <h3 class="ms-5">No data matching the query</h3>
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</div>

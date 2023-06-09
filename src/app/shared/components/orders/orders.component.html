@@ -1,0 +1,34 @@
+<div style="display: flex; justify-content: center; margin-top: 50px;">
+  <div style="max-width: 1000px; flex: 1;">
+    <h1>Orders</h1>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+        <!-- Name Column -->
+        <ng-container matColumnDef="customer">
+          <mat-header-cell mat-header-cell *matHeaderCellDef>Customer</mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let order">{{ order.name }}</mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="date">
+          <mat-header-cell mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let order">{{ getDate(order) | date }}</mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="totalPrice">
+          <mat-header-cell mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let order">
+            {{ getTotalPrice(order) | currency : "USD" : "symbol" }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>

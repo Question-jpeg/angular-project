@@ -1,0 +1,9 @@
+<button
+  *ngIf="!(isInProcess$ | async)"
+  (click)="login()"
+  mat-raised-button
+  color="primary"
+  style="font-size: 16px; padding: 20px"
+>
+  Login with Google
+</button>

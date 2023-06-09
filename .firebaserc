@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-project-b1491": {
+      "hosting": {
+        "angular-project": [
+          "angular-project-b1491"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-project-b1491"
+  }
+}

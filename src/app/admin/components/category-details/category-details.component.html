@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Category details</h1>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-icon class="me-2">title</mat-icon>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput type="text" />
+      <button
+        (click)="form.controls.title.setValue(null)"
+        matSuffix
+        mat-icon-button
+        type="button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error
+        *ngIf="form.controls.title.errors && form.controls.title.touched"
+      >
+        Title is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+  <mat-dialog-actions style="display: flex" [align]="'start'">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!form.valid"
+      (click)="submit()"
+      mat-dialog-close
+    >
+      Save
+    </button>
+    <div style="flex: 1;"></div>
+    <button
+        (click)="openConfirm()"
+        mat-raised-button
+        color="warn"
+        *ngIf="data"
+      >
+        Delete
+      </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

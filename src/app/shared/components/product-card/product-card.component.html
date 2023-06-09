@@ -1,0 +1,52 @@
+<div class="card" style="width: 400px; overflow: hidden; height: fit-content">
+  <img
+    [src]="product.imageUrl"
+    style="height: 250px; object-fit: cover"
+    onerror="this.src = 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png' "
+  />
+  <div class="card-body" style="display: flex; flex-direction: column">
+    <h1 style="color: black" class="card-title">
+      {{ product.title }}
+    </h1>
+    <p style="opacity: 0.5; font-size: 16px">{{ product.description }}</p>
+    <div style="flex: 1; min-height: 10px"></div>
+    <p
+      style="color: black; font-weight: 500; font-size: 18px"
+      class="card-text mb-2"
+    >
+      {{ product.price | currency : "USD" : "symbol" }}
+    </p>
+    <button
+      (click)="addProduct(product.id!)"
+      *ngIf="displayButton && !quantity"
+      mat-raised-button
+      color="primary"
+      style="width: 100%"
+      class="mt-2"
+    >
+      Add to Cart
+    </button>
+    <div *ngIf="quantity" style="display: flex; align-items: center">
+      <div style="flex: 1"></div>
+      <button routerLink="/cart" mat-icon-button>
+        <mat-icon style="color: grey">shopping_cart</mat-icon>
+      </button>
+
+      <button
+        (click)="setQuantity(product.id!, quantity - 1)"
+        mat-icon-button
+        color="primary"
+      >
+        <mat-icon>indeterminate_check_box</mat-icon>
+      </button>
+      {{ quantity }}
+      <button
+        (click)="setQuantity(product.id!, quantity + 1)"
+        mat-icon-button
+        color="primary"
+      >
+        <mat-icon>add_box</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

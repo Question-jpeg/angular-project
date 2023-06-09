@@ -2,10 +2,25 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "shared/*": [
+        "app/shared/*"
+      ],
+      "admin/*": [
+        "app/admin/*"
+      ],
+      "shopping/*": [
+        "app/shopping/*"
+      ],
+      "core/*": [
+        "app/core/*"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

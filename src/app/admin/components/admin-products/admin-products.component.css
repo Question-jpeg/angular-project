@@ -1,0 +1,7 @@
+mat-row.row-highlight:hover {
+  background-color: #efefef;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-elevated-container-color: #efefef;
+}

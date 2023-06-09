@@ -1,0 +1,106 @@
+<div class="card" style="position: sticky; top: 0; z-index: 1">
+  <div class="card-body container">
+    <nav class="navbar navbar-expand-lg bg-light" style="border-radius: 10px">
+      <div class="container-fluid">
+        <mat-icon
+          routerLink=""
+          class="navbar-brand"
+          style="font-size: 32px; height: 40px; color: gray; cursor: pointer;"
+          >eco</mat-icon
+        >
+        <div
+          style="background-color: grey; width: 2px; height: 30px"
+          class="me-4"
+        ></div>
+        <button class="navbar-toggler" type="button">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mb-2 mb-lg-0" style="flex: 1">
+            <li class="nav-item">
+              <a
+                routerLink="/products"
+                routerLinkActive="active"
+                class="nav-link"
+                >Catalog</a
+              >
+            </li>
+            <li class="nav-item" style="display: flex; align-items: center">
+              <mat-icon
+                routerLink="/cart"
+                style="color: grey; margin: 0 5px 0 10px; cursor: pointer"
+                >shopping_cart</mat-icon
+              >
+
+              <div
+                *ngIf="(cartProducts$ | async)?.length"
+                style="
+                  height: fit-content;
+                  min-width: 20px;
+                  background-color: #3f51b5;
+                  font-size: 14px;
+                  color: white;
+                  text-align: center;
+                  border-radius: 100%;
+                  font-weight: 500;
+                "
+                class="me-2"
+              >
+                {{ (cartProducts$ | async)?.length }}
+              </div>
+            </li>
+            <div style="margin-left: auto;">
+              <li
+                *ngIf="afAuth.firebaseUser && !(isFetching$ | async)"
+                class="nav-item"
+              >
+                <button
+                  class="nav-link"
+                  mat-button
+                  [matMenuTriggerFor]="menu"
+                  style="letter-spacing: inherit"
+                  (onMenuOpen)="dropdownTitle.classList.add('active')"
+                  (onMenuClose)="dropdownTitle.classList.remove('active')"
+                >
+                  <span #dropdownTitle class="nav-link dropdown-toggle">{{
+                    afAuth.firebaseUser.name
+                  }}</span>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <a routerLink="/orders" mat-menu-item>My Orders</a>
+                  <a
+                    *ngIf="afAuth.firebaseUser.isAdmin"
+                    routerLink="/admin/orders"
+                    mat-menu-item
+                    >Manage Orders</a
+                  >
+                  <a
+                    *ngIf="afAuth.firebaseUser.isAdmin"
+                    routerLink="/admin/products"
+                    mat-menu-item
+                    >Manage Products</a
+                  >
+                  <a (click)="logout()" routerLink="/" mat-menu-item>Log Out</a>
+                </mat-menu>
+              </li>
+              <li
+                *ngIf="!afAuth.firebaseUser && !(isFetching$ | async)"
+                class="nav-item"
+              >
+                <a
+                  routerLink="/login"
+                  routerLinkActive="active"
+                  class="nav-link"
+                  >Login</a
+                >
+              </li>
+              <li *ngIf="isFetching$ | async" class="nav-item me-3">
+                <mat-spinner diameter="30"></mat-spinner>
+              </li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
